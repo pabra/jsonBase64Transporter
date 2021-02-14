@@ -38,3 +38,15 @@ export function assertIsBrowser(): void {
     throw new Error('looks like running in node');
   }
 }
+
+export function isTuple2(data: unknown): data is readonly [unknown, unknown] {
+  if (!Array.isArray(data)) {
+    return false;
+  }
+
+  if (data.length !== 2) {
+    return false;
+  }
+
+  return true;
+}

@@ -9,7 +9,6 @@ module.exports = function (config) {
     files: [
       { pattern: '__tests__/browser/*.test.ts' },
       '__tests__/*.ts',
-      '__tests__/browser/*.ts',
       'src/common/*.ts',
       'src/browser/*.ts',
       'src/node/*.ts',

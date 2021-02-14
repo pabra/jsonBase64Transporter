@@ -1,5 +1,5 @@
 import type { Opaque, TupleType } from './types';
-import { ensureError } from './utils';
+import { ensureError, isTuple2 } from './utils';
 
 const jsonSymbol = Symbol('json');
 const jsonErrorSymbol = Symbol('json-error');
@@ -35,11 +35,7 @@ export function toRaw(json: Json): JsonStringified {
 }
 
 export function isJson(data: unknown): data is Json {
-  if (!Array.isArray(data)) {
-    return false;
-  }
-
-  if (data.length !== 2) {
+  if (!isTuple2(data)) {
     return false;
   }
 
@@ -51,11 +47,7 @@ export function isJson(data: unknown): data is Json {
 }
 
 export function isJsonError(data: unknown): data is JsonError {
-  if (!Array.isArray(data)) {
-    return false;
-  }
-
-  if (data.length !== 2) {
+  if (!isTuple2(data)) {
     return false;
   }
 

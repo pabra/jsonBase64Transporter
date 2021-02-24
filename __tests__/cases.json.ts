@@ -3,7 +3,12 @@ const jSymbol = fromData(null)[0];
 const jErrSymbol = fromData(BigInt(123) as any)[0];
 
 export const cases: Record<
-  'fromData' | 'isJson' | 'isJsonError' | 'toRaw' | 'toData' | 'toArrayBuffer',
+  | 'fromData'
+  | 'isJson'
+  | 'isJsonError'
+  | 'toValue'
+  | 'toData'
+  | 'toArrayBuffer',
   Record<'good' | 'bad', [any, any][]>
 > = {
   fromData: {
@@ -89,7 +94,7 @@ export const cases: Record<
     ],
   },
 
-  toRaw: {
+  toValue: {
     good: [
       [[jSymbol, 'some kind of string'], 'some kind of string'],
       [[jSymbol, 42], 42],

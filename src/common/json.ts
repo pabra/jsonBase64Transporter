@@ -30,7 +30,7 @@ export function toData(json: Json): JsonAny | JsonError {
   }
 }
 
-export function toRaw(json: Json): JsonStringified {
+export function toValue(json: Json): JsonStringified {
   return json[1];
 }
 

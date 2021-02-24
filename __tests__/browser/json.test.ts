@@ -58,11 +58,11 @@ describe('json.isJsonError with bad data', () => {
   });
 });
 
-// toRaw
-describe('json.toRaw with good data', () => {
+// toValue
+describe('json.toValue with good data', () => {
   it('should return expected values', () => {
-    cases.toRaw.good.forEach(([value, expected]) => {
-      expect(json.toRaw(value)).toBe(expected);
+    cases.toValue.good.forEach(([value, expected]) => {
+      expect(json.toValue(value)).toBe(expected);
     });
   });
 });

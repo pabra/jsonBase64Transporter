@@ -7,12 +7,12 @@ import type { Base64, Base64Error, Base64String } from '../common/base64';
 import {
   base64ErrorSymbol,
   base64Symbol,
-  toRaw,
+  toValue,
   trimB64,
 } from '../common/base64';
 import { assertIsBrowser, ensureError, isTestMode } from '../common/utils';
 
-export { isBase64, isBase64Error, toRaw } from '../common/base64';
+export { isBase64, isBase64Error, toValue } from '../common/base64';
 export type { Base64, Base64Error, Base64String } from '../common/base64';
 
 function ab2str(buf: ArrayBuffer): string {
@@ -51,7 +51,7 @@ export function fromArrayBuffer(
 
 export function toArrayBuffer(b64: Base64): ArrayBuffer | Base64Error {
   try {
-    const binStr = atob(toRaw(b64));
+    const binStr = atob(toValue(b64));
     const buf = str2ab(binStr);
 
     return buf;

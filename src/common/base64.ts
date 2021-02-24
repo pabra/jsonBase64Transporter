@@ -15,7 +15,7 @@ export function trimB64(b64: Base64String): Base64String {
   return b64.replace(base64PaddingRe, '') as Base64String;
 }
 
-export function toRaw(b64: Base64): string {
+export function toValue(b64: Base64): string {
   return b64[1];
 }
 

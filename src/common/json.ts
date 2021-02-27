@@ -5,10 +5,9 @@ const jsonSymbol = Symbol('json');
 
 export type JsonStringified = Opaque<string, 'JsonStringified'>;
 
-export type Json = Opaque<
-  TaggedTuple<JsonStringified, typeof jsonSymbol>,
-  'Json'
->;
+export type Json = TaggedTuple<JsonStringified, typeof jsonSymbol> & {
+  _type: 'Json';
+};
 
 export function fromData(data: JsonValue): Json {
   return ([

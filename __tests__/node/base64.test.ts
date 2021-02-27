@@ -3,62 +3,62 @@ import { cases } from '../cases.base64';
 
 // trimmed fromArrayBuffer
 describe('trimmed base64.fromData with good data', () => {
-  it('should return expected values', () => {
-    cases.fromArrayBufferTimmed.good.forEach(([value, expected]) => {
-      const b64Default = base64.fromArrayBuffer(value);
-      const b64 = base64.fromArrayBuffer(value, true);
+  cases.fromArrayBufferTimmed.good.forEach(([value, expected]) => {
+    const b64Default = base64.fromArrayBuffer(value);
+    const b64 = base64.fromArrayBuffer(value, true);
+    it(`should be '${expected} with '${b64Default[1]}`, () => {
       expect(b64Default[1]).toBe(expected);
+    });
+    it(`should be '${expected} with '${b64[1]}`, () => {
       expect(b64[1]).toBe(expected);
+    });
+    it(`should be Base64 with '${value}'`, () => {
       expect(base64.isBase64(b64Default)).toBeTruthy();
+    });
+    it(`should be Base64 with '${value}'`, () => {
       expect(base64.isBase64(b64)).toBeTruthy();
-      expect(base64.isBase64Error(b64Default)).not.toBeTruthy();
-      expect(base64.isBase64Error(b64)).not.toBeTruthy();
     });
   });
 });
 
 describe('base64.fromData with bad data', () => {
-  it('should detect bad return values', () => {
-    cases.fromArrayBufferTimmed.bad.forEach(([value, expected]) => {
-      const d = base64.fromArrayBuffer(value);
-      expect(String(d[0])).toEqual(expected);
-      expect(base64.isBase64Error(d)).toBeTruthy();
-      expect(base64.isBase64(d)).not.toBeTruthy();
+  cases.fromArrayBufferTimmed.bad.forEach(([value]) => {
+    it(`should thro Error for '${value}'`, () => {
+      expect(() => base64.fromArrayBuffer(value)).toThrowError();
     });
   });
 });
 
 // not trimmed fromArrayBuffer
 describe('not trimmed base64.fromData with good data', () => {
-  it('should return expected values', () => {
-    cases.fromArrayBufferNotTimmed.good.forEach(([value, expected]) => {
-      const b64 = base64.fromArrayBuffer(value, false);
+  cases.fromArrayBufferNotTimmed.good.forEach(([value, expected]) => {
+    const b64 = base64.fromArrayBuffer(value, false);
+    it(`should be '${expected}' with '${b64[1]}'`, () => {
       expect(b64[1]).toBe(expected);
+    });
+    it(`should be Base64 with '${value}'`, () => {
       expect(base64.isBase64(b64)).toBeTruthy();
-      expect(base64.isBase64Error(b64)).not.toBeTruthy();
     });
   });
 });
 
 // toArrayBuffer
 describe('base64.toArrayBuffer with good data', () => {
-  it('should return expected values', () => {
-    cases.toArrayBuffer.good.forEach(([value, expected]) => {
-      const buf = base64.toArrayBuffer(value) as any;
+  cases.toArrayBuffer.good.forEach(([value, expected]) => {
+    const buf = base64.toArrayBuffer(value) as any;
+    it(`should be expected Array '${expected}' for '${value[1]}'`, () => {
       expect(Array.from(new Uint8Array(buf))).toEqual(expected);
-      expect(base64.isBase64Error(buf)).not.toBeTruthy();
+    });
+    it(`should not be Base64 with '${value[1]}'`, () => {
       expect(base64.isBase64(buf)).not.toBeTruthy();
     });
   });
 });
 
 describe('base64.toArrayBuffer with bad data', () => {
-  it('should detect bad return values', () => {
-    cases.toArrayBuffer.bad.forEach(([value, expected]) => {
-      const buf = base64.toArrayBuffer(value) as any;
-      expect(String(buf[0])).toBe(expected);
-      expect(base64.isBase64Error(buf)).toBeTruthy();
-      expect(base64.isBase64(buf)).not.toBeTruthy();
+  cases.toArrayBuffer.bad.forEach(([value]) => {
+    it(`should throw with '${value[0]}'`, () => {
+      expect(() => base64.toArrayBuffer(value)).toThrowError();
     });
   });
 });

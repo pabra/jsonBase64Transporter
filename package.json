@@ -11,7 +11,9 @@
     "./dist/esm/node.js": "./dist/esm/browser/index.js",
     "./dist/esm/node.d.ts": "./dist/esm/browser/index.d.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean:coverage": "rimraf coverage/*",
     "clean:build": "rimraf dist/*",

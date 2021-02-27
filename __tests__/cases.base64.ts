@@ -1,7 +1,4 @@
-import {
-  base64ErrorSymbol as b64ErrorSymbol,
-  base64Symbol as b64Symbol,
-} from '../src/common/base64';
+import { base64Symbol as b64Symbol } from '../src/common/base64';
 
 export const cases: Record<
   'fromArrayBufferTimmed' | 'fromArrayBufferNotTimmed' | 'toArrayBuffer',
@@ -12,7 +9,7 @@ export const cases: Record<
       [new Uint8Array([2, 4, 8, 16, 32, 64, 128, 255]), 'AgQIECBAgP8'],
       [new Uint8Array([42, 119, 246, 13, 63, 213, 158]), 'Knf2DT/Vng'],
     ],
-    bad: [[Infinity, 'Symbol(base64-error)']],
+    bad: [[Infinity, undefined]],
   },
 
   fromArrayBufferNotTimmed: {
@@ -38,7 +35,7 @@ export const cases: Record<
         [42, 119, 246, 13, 63, 213, 158],
       ],
       [
-        [b64ErrorSymbol, 'Knf2DT/Vng'],
+        [b64Symbol, 'Knf2DT/Vng'],
         [42, 119, 246, 13, 63, 213, 158],
       ],
       [
@@ -50,6 +47,6 @@ export const cases: Record<
         [2, 4, 8, 16, 32, 64, 128, 255],
       ],
     ],
-    bad: [[Infinity, 'Symbol(base64-error)']],
+    bad: [[Infinity, undefined]],
   },
 };

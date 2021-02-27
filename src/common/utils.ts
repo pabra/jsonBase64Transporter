@@ -1,7 +1,3 @@
-export function ensureError(err: unknown): Error {
-  return err instanceof Error ? err : new Error(String(err));
-}
-
 function isTestEnv(): boolean {
   return typeof process !== 'object'
     ? false
@@ -39,7 +35,9 @@ export function assertIsBrowser(): void {
   }
 }
 
-export function isTuple2(data: unknown): data is readonly [unknown, unknown] {
+export function isTaggedTuple(
+  data: unknown,
+): data is readonly [unknown, unknown] {
   if (!Array.isArray(data)) {
     return false;
   }

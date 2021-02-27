@@ -1,14 +1,8 @@
 import { fromData } from '../src/common/json';
 const jSymbol = fromData(null)[0];
-const jErrSymbol = fromData(BigInt(123) as any)[0];
 
 export const cases: Record<
-  | 'fromData'
-  | 'isJson'
-  | 'isJsonError'
-  | 'toValue'
-  | 'toData'
-  | 'toArrayBuffer',
+  'fromData' | 'isJson' | 'toValue' | 'toData' | 'toArrayBuffer',
   Record<'good' | 'bad', [any, any][]>
 > = {
   fromData: {
@@ -45,15 +39,7 @@ export const cases: Record<
       ],
       [{}, '{}'],
     ],
-    bad: [
-      [
-        BigInt(123),
-        [
-          'Symbol(json-error)',
-          'TypeError: Do not know how to serialize a BigInt',
-        ],
-      ],
-    ],
+    bad: [[BigInt(123), undefined]],
   },
 
   isJson: {
@@ -71,26 +57,7 @@ export const cases: Record<
       [[true, 'some data'], false],
       [[jSymbol, 23, 42], false],
       [[jSymbol], false],
-      [[jErrSymbol, 'some kind of string'], false],
-    ],
-  },
-
-  isJsonError: {
-    good: [
-      [[jErrSymbol, 'some kind of string'], true],
-      [[jErrSymbol, 42], true],
-      [[jErrSymbol, false], true],
-      [[jErrSymbol, new Error()], true],
-    ],
-    bad: [
-      [undefined, false],
-      [true, false],
-      [[], false],
-      [[Symbol('other'), 'some data'], false],
-      [[true, 'some data'], false],
-      [[jErrSymbol, 23, 42], false],
-      [[jErrSymbol], false],
-      [[jSymbol, 'some kind of string'], false],
+      [[Symbol('some'), 'some kind of string'], false],
     ],
   },
 
@@ -115,12 +82,7 @@ export const cases: Record<
       [[undefined, '{"ä":1}'], { ä: 1 }],
       [[42, '{"a":1}'], { a: 1 }],
     ],
-    bad: [
-      [
-        [jSymbol, 'some string'],
-        'SyntaxError: Unexpected token s in JSON at position 0',
-      ],
-    ],
+    bad: [[[jSymbol, 'some string'], undefined]],
   },
 
   toArrayBuffer: {

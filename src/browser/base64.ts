@@ -3,17 +3,12 @@
  * @jest-environment jsdom
  */
 
-import type { Base64, Base64Error, Base64String } from '../common/base64';
-import {
-  base64ErrorSymbol,
-  base64Symbol,
-  toValue,
-  trimB64,
-} from '../common/base64';
-import { assertIsBrowser, ensureError, isTestMode } from '../common/utils';
+import type { Base64, Base64String } from '../common/base64';
+import { base64Symbol, toValue, trimB64 } from '../common/base64';
+import { assertIsBrowser, isTestMode } from '../common/utils';
 
-export { isBase64, isBase64Error, toValue } from '../common/base64';
-export type { Base64, Base64Error, Base64String } from '../common/base64';
+export { isBase64, toValue } from '../common/base64';
+export type { Base64, Base64String } from '../common/base64';
 
 function ab2str(buf: ArrayBuffer): string {
   return String.fromCharCode.apply(
@@ -34,30 +29,19 @@ function str2ab(str: string): ArrayBuffer {
   return buf;
 }
 
-export function fromArrayBuffer(
-  buf: ArrayBuffer,
-  trim = true,
-): Base64 | Base64Error {
-  try {
-    const binStr = ab2str(buf);
-    const b64 = btoa(binStr) as Base64String;
-    const maybeTrimmed = trim ? trimB64(b64) : b64;
+export function fromArrayBuffer(buf: ArrayBuffer, trim = true): Base64 {
+  const binStr = ab2str(buf);
+  const b64 = btoa(binStr) as Base64String;
+  const maybeTrimmed = trim ? trimB64(b64) : b64;
 
-    return [base64Symbol, maybeTrimmed];
-  } catch (err: unknown) {
-    return [base64ErrorSymbol, ensureError(err)];
-  }
+  return ([base64Symbol, maybeTrimmed] as unknown) as Base64;
 }
 
-export function toArrayBuffer(b64: Base64): ArrayBuffer | Base64Error {
-  try {
-    const binStr = atob(toValue(b64));
-    const buf = str2ab(binStr);
+export function toArrayBuffer(b64: Base64): ArrayBuffer {
+  const binStr = atob(toValue(b64));
+  const buf = str2ab(binStr);
 
-    return buf;
-  } catch (err: unknown) {
-    return [base64ErrorSymbol, ensureError(err)];
-  }
+  return buf;
 }
 
 export function assertRightEnvironment(): void {

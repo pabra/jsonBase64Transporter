@@ -1,33 +1,24 @@
-import type { Opaque, TupleType } from './types';
-import { ensureError, isTuple2 } from './utils';
+import type { JsonValue, Opaque, TaggedTuple } from './types';
+import { isTaggedTuple } from './utils';
 
 const jsonSymbol = Symbol('json');
-const jsonErrorSymbol = Symbol('json-error');
-
-type JsonPrimitive = string | number | boolean | null;
-type JsonArray = JsonAny[];
-type JsonObject = { [key: string]: JsonAny };
-export type JsonAny = JsonPrimitive | JsonArray | JsonObject;
 
 export type JsonStringified = Opaque<string, 'JsonStringified'>;
 
-export type Json = TupleType<JsonStringified, typeof jsonSymbol>;
-export type JsonError = TupleType<Error, typeof jsonErrorSymbol>;
+export type Json = Opaque<
+  TaggedTuple<JsonStringified, typeof jsonSymbol>,
+  'Json'
+>;
 
-export function fromData(data: JsonAny): Json | JsonError {
-  try {
-    return [jsonSymbol, JSON.stringify(data) as JsonStringified];
-  } catch (err: unknown) {
-    return [jsonErrorSymbol, ensureError(err)];
-  }
+export function fromData(data: JsonValue): Json {
+  return ([
+    jsonSymbol,
+    JSON.stringify(data) as JsonStringified,
+  ] as unknown) as Json;
 }
 
-export function toData(json: Json): JsonAny | JsonError {
-  try {
-    return JSON.parse(json[1]) as JsonAny;
-  } catch (err: unknown) {
-    return [jsonErrorSymbol, ensureError(err)];
-  }
+export function toData(json: Json): JsonValue {
+  return JSON.parse(json[1]);
 }
 
 export function toValue(json: Json): JsonStringified {
@@ -35,23 +26,11 @@ export function toValue(json: Json): JsonStringified {
 }
 
 export function isJson(data: unknown): data is Json {
-  if (!isTuple2(data)) {
+  if (!isTaggedTuple(data)) {
     return false;
   }
 
   if (data[0] !== jsonSymbol) {
-    return false;
-  }
-
-  return true;
-}
-
-export function isJsonError(data: unknown): data is JsonError {
-  if (!isTuple2(data)) {
-    return false;
-  }
-
-  if (data[0] !== jsonErrorSymbol) {
     return false;
   }
 

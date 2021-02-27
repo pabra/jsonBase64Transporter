@@ -11,9 +11,7 @@
     "./dist/esm/node.js": "./dist/esm/browser.js",
     "./dist/esm/node.d.ts": "./dist/esm/browser.d.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "clean:coverage": "rimraf coverage/*",
     "clean:build": "rimraf dist/*",
@@ -22,20 +20,21 @@
     "format": "prettier --write \"{src,__tests__}/**/*.{js,ts,jsx,tsx,json,html,css,scss,yml,yaml}\"",
     "format:check": "prettier --check \"{src,__tests__}/**/*.{js,ts,jsx,tsx,json,html,css,scss,yml,yaml}\"",
     "lint": "eslint \"{src,__tests__}/**/*.{js,ts,jsx,tsx}\"",
-    "test": "run-p test:jest test:chrome",
+    "test": "run-p test:types test:jest test:chrome",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "pretest:coverage": "npm run clean:coverage",
     "test:coverage": "run-p test:jest-coverage test:chrome",
     "test:chrome": "karma start",
     "test:jest": "jest",
     "test:jest-coverage": "jest --coverage",
-    "test:after-commit": "run-p format:check lint test:coverage build:check",
-    "test:before-publish": "run-p format:check lint test build",
+    "test:types": "tsd tsd_project",
+    "test:after-commit": "run-p format:check lint test:types test:coverage build:check",
+    "test:before-publish": "run-p format:check lint test:types test build",
     "prebuild:cjs": "npm run clean:build:cjs",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "prebuild:esm": "npm run clean:build:esm",
     "build:esm": "tsc -p tsconfig.esm.json",
-    "build:check": "tsc",
+    "build:check": "tsc -p tsconfig.test.json",
     "build": "run-p build:cjs build:esm"
   },
   "keywords": [],
@@ -64,6 +63,7 @@
     "puppeteer": "^7.1.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.2",
+    "tsd": "^0.14.0",
     "typescript": "^4.2.2"
   }
 }

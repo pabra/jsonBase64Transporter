@@ -10,6 +10,10 @@ import { assertIsNode, isTestMode } from '../common/utils';
 export { isBase64, toValue } from '../common/base64';
 export type { Base64, Base64String } from '../common/base64';
 
+export function load(b64: string): Base64 {
+  return ([base64Symbol, b64] as unknown) as Base64;
+}
+
 export function fromArrayBuffer(buf: ArrayBuffer, trim = true): Base64 {
   const b64 = Buffer.from(buf).toString('base64') as Base64String;
   const maybeTrimmed = trim ? trimB64(b64) : b64;

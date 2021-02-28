@@ -62,3 +62,13 @@ describe('base64.toArrayBuffer with bad data', () => {
     });
   });
 });
+
+describe('base64.load with good data', () => {
+  cases.load.good.forEach(([value, expected]) => {
+    it(`should load '${value}' as '${expected}'`, () => {
+      expect(
+        Array.from(new Uint8Array(base64.toArrayBuffer(base64.load(value)))),
+      ).toEqual(expected);
+    });
+  });
+});

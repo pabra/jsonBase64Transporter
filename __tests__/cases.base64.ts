@@ -1,7 +1,10 @@
 import { base64Symbol as b64Symbol } from '../src/common/base64';
 
 export const cases: Record<
-  'fromArrayBufferTimmed' | 'fromArrayBufferNotTimmed' | 'toArrayBuffer',
+  | 'fromArrayBufferTimmed'
+  | 'fromArrayBufferNotTimmed'
+  | 'toArrayBuffer'
+  | 'load',
   Record<'good' | 'bad', [any, any][]>
 > = {
   fromArrayBufferTimmed: {
@@ -48,5 +51,12 @@ export const cases: Record<
       ],
     ],
     bad: [[Infinity, undefined]],
+  },
+  load: {
+    good: [
+      ['AgQIECBAgP8', [2, 4, 8, 16, 32, 64, 128, 255]],
+      ['Knf2DT/Vng==', [42, 119, 246, 13, 63, 213, 158]],
+    ],
+    bad: [],
   },
 };

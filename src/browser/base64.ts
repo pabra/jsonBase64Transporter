@@ -29,6 +29,10 @@ function str2ab(str: string): ArrayBuffer {
   return buf;
 }
 
+export function load(b64: string): Base64 {
+  return ([base64Symbol, b64] as unknown) as Base64;
+}
+
 export function fromArrayBuffer(buf: ArrayBuffer, trim = true): Base64 {
   const binStr = ab2str(buf);
   const b64 = btoa(binStr) as Base64String;

@@ -1,4 +1,5 @@
-export type TaggedTuple<T, S extends symbol> = Readonly<[S, T]>;
+export type TaggedTriple<T, U, S extends symbol> = Readonly<[S, T, U]>;
+export type TaggedQuadruple<T, U, V, S extends symbol> = Readonly<[S, T, U, V]>;
 
 type JsonPrimitive = string | number | boolean | null;
 type JsonObject = { [Key in string]: JsonValue };

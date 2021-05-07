@@ -1,11 +1,16 @@
-import type { JsonValue, Opaque, TaggedTuple } from './types';
-import { isTaggedTuple } from './utils';
+import type { JsonValue, Opaque, TaggedQuadruple } from './types';
+import { isTaggedArray } from './utils';
 
 const jsonSymbol = Symbol('json');
 
 export type JsonStringified = Opaque<string, 'JsonStringified'>;
 
-export type Json = TaggedTuple<JsonStringified, typeof jsonSymbol> & {
+export type Json = TaggedQuadruple<
+  JsonStringified,
+  JsonValue,
+  ArrayBuffer,
+  typeof jsonSymbol
+> & {
   _type: 'Json';
 };
 
@@ -13,11 +18,13 @@ export function fromData(data: JsonValue): Json {
   return ([
     jsonSymbol,
     JSON.stringify(data) as JsonStringified,
+    data,
+    null, // ArrayBuffer
   ] as unknown) as Json;
 }
 
 export function toData(json: Json): JsonValue {
-  return JSON.parse(json[1]);
+  return json[2];
 }
 
 export function toValue(json: Json): JsonStringified {
@@ -25,7 +32,7 @@ export function toValue(json: Json): JsonStringified {
 }
 
 export function isJson(data: unknown): data is Json {
-  if (!isTaggedTuple(data)) {
+  if (!isTaggedArray(data, 'quadruple')) {
     return false;
   }
 

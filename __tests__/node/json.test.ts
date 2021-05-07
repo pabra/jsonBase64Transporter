@@ -5,8 +5,20 @@ import { cases } from '../cases.json';
 describe('json.fromData with good data', () => {
   cases.fromData.good.forEach(([value, expected]) => {
     const j = json.fromData(value);
+    it('should lazy load', () => {
+      expect(j[1]).not.toBeNull();
+      // data might be null since it'S a valid json value
+      // expect(j[2]).not.toBeNull();
+      expect(j[3]).toBeNull();
+    });
     it(`JSON of '${j[1]}' to be '${expected}'`, () => {
-      expect(j[1]).toBe(expected);
+      expect(json.toValue(j)).toBe(expected);
+    });
+    it('should not be null anymore', () => {
+      expect(j[1]).not.toBeNull();
+      // data might be null since it'S a valid json value
+      // expect(j[2]).not.toBeNull();
+      expect(j[3]).toBeNull();
     });
     it(`should be Json with '${j[1]}'`, () => {
       expect(json.isJson(j)).toBeTruthy();

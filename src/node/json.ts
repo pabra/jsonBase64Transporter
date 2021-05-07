@@ -12,7 +12,11 @@ export type { Json, JsonStringified } from '../common/json';
 export type { JsonValue } from '../common/types';
 
 export function toArrayBuffer(json: Json): ArrayBuffer {
-  return Buffer.from(toValue(json), 'utf8');
+  if (json[3] === null) {
+    (json as any)[3] = Buffer.from(toValue(json), 'utf8');
+  }
+
+  return json[3];
 }
 
 export function assertRightEnvironment(): void {

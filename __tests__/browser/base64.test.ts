@@ -4,16 +4,13 @@ import { cases } from '../cases.base64';
 // trimmed fromArrayBuffer
 describe('trimmed base64.fromData with good data', () => {
   cases.fromArrayBufferTimmed.good.forEach(([value, expected]) => {
-    const b64Default = base64.fromArrayBuffer(value);
-    const b64 = base64.fromArrayBuffer(value, true);
-    it(`should be '${expected} with '${b64Default[1]}`, () => {
-      expect(b64Default[1]).toBe(expected);
-    });
+    const b64 = base64.fromArrayBuffer(value);
     it(`should be '${expected} with '${b64[1]}`, () => {
-      expect(b64[1]).toBe(expected);
-    });
-    it(`should be Base64 with '${value}'`, () => {
-      expect(base64.isBase64(b64Default)).toBeTruthy();
+      expect(b64[1]).toBeNull();
+      expect(b64[2]).not.toBeNull();
+      expect(base64.toValue(b64)).toBe(expected);
+      expect(b64[1]).not.toBeNull();
+      expect(b64[2]).not.toBeNull();
     });
     it(`should be Base64 with '${value}'`, () => {
       expect(base64.isBase64(b64)).toBeTruthy();
@@ -24,20 +21,9 @@ describe('trimmed base64.fromData with good data', () => {
 describe('base64.fromData with bad data', () => {
   cases.fromArrayBufferTimmed.bad.forEach(([value]) => {
     it(`should thro Error for '${value}'`, () => {
-      expect(() => base64.fromArrayBuffer(value)).toThrowError();
-    });
-  });
-});
-
-// not trimmed fromArrayBuffer
-describe('not trimmed base64.fromData with good data', () => {
-  cases.fromArrayBufferNotTimmed.good.forEach(([value, expected]) => {
-    const b64 = base64.fromArrayBuffer(value, false);
-    it(`should be '${expected}' with '${b64[1]}'`, () => {
-      expect(b64[1]).toBe(expected);
-    });
-    it(`should be Base64 with '${value}'`, () => {
-      expect(base64.isBase64(b64)).toBeTruthy();
+      expect(() =>
+        base64.toValue(base64.fromArrayBuffer(value)),
+      ).toThrowError();
     });
   });
 });
@@ -58,7 +44,7 @@ describe('base64.toArrayBuffer with good data', () => {
 describe('base64.toArrayBuffer with bad data', () => {
   cases.toArrayBuffer.bad.forEach(([value]) => {
     it(`should throw with '${value[0]}'`, () => {
-      expect(() => base64.toArrayBuffer(value)).toThrowError();
+      expect(() => base64.toArrayBuffer(base64.load(value))).toThrowError();
     });
   });
 });

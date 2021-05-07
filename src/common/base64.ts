@@ -1,11 +1,15 @@
-import type { Opaque, TaggedTuple } from './types';
-import { isTaggedTuple } from './utils';
+import type { Opaque, TaggedTriple } from './types';
+import { isTaggedArray } from './utils';
 
 export const base64Symbol = Symbol('base64');
 
 export type Base64String = Opaque<string, 'Base64String'>;
 
-export type Base64 = TaggedTuple<Base64String, typeof base64Symbol> & {
+export type Base64 = TaggedTriple<
+  Base64String,
+  ArrayBuffer,
+  typeof base64Symbol
+> & {
   _type: 'Base64';
 };
 
@@ -15,12 +19,8 @@ export function trimB64(b64: Base64String): Base64String {
   return b64.replace(base64PaddingRe, '') as Base64String;
 }
 
-export function toValue(b64: Base64): string {
-  return b64[1];
-}
-
 export function isBase64(data: unknown): data is Base64 {
-  if (!isTaggedTuple(data)) {
+  if (!isTaggedArray(data, 'triple')) {
     return false;
   }
 

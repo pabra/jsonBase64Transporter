@@ -35,14 +35,17 @@ export function assertIsBrowser(): void {
   }
 }
 
-export function isTaggedTuple(
+export function isTaggedArray(
   data: unknown,
-): data is readonly [unknown, unknown] {
+  length: 'triple' | 'quadruple',
+): data is readonly [unknown, unknown, unknown] {
   if (!Array.isArray(data)) {
     return false;
   }
 
-  if (data.length !== 2) {
+  const expectedLength = length === 'triple' ? 3 : 4;
+
+  if (data.length !== expectedLength) {
     return false;
   }
 

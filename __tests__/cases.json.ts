@@ -44,17 +44,20 @@ export const cases: Record<
 
   isJson: {
     good: [
-      [[jSymbol, 'some kind of string'], true],
-      [[jSymbol, 42], true],
-      [[jSymbol, false], true],
-      [[jSymbol, new Error()], true],
+      [[jSymbol, '"some kind of string"', 'some kind of string', null], true],
+      [[jSymbol, '"true"', 'true', null], true],
+      [[jSymbol, 'true', true, null], true],
+      [[jSymbol, '"42"', '42', null], true],
+      [[jSymbol, '42', 42, null], true],
+      [[jSymbol, '{"a":1}', { a: 1 }, null], true],
+      [[jSymbol, '{}', new Error(), null], true],
     ],
     bad: [
       [undefined, false],
       [true, false],
       [[], false],
-      [[Symbol('other'), 'some data'], false],
-      [[true, 'some data'], false],
+      [[Symbol('other'), 'some data', null, null], false],
+      [[true, 'some data', null, null], false],
       [[jSymbol, 23, 42], false],
       [[jSymbol], false],
       [[Symbol('some'), 'some kind of string'], false],
@@ -63,36 +66,44 @@ export const cases: Record<
 
   toValue: {
     good: [
-      [[jSymbol, 'some kind of string'], 'some kind of string'],
-      [[jSymbol, 42], 42],
-      [[jSymbol, false], false],
-      [[jSymbol, '{"a":1}'], '{"a":1}'],
-      [[undefined, '{"a":1}'], '{"a":1}'],
-      [[42, '{"a":1}'], '{"a":1}'],
+      [
+        [jSymbol, '"some kind of string"', 'some kind of string', null],
+        '"some kind of string"',
+      ],
+      [[jSymbol, '"true"', 'true', null], '"true"'],
+      [[jSymbol, 'true', true, null], 'true'],
+      [[jSymbol, '"42"', '42', null], '"42"'],
+      [[jSymbol, '42', 42, null], '42'],
+      [[jSymbol, '{"a":1}', { a: 1 }, null], '{"a":1}'],
+      [[jSymbol, '{}', new Error(), null], '{}'],
     ],
     bad: [],
   },
 
   toData: {
     good: [
-      [[jSymbol, '"true"'], 'true'],
-      [[jSymbol, 'true'], true],
-      [[jSymbol, 'null'], null],
-      [[jSymbol, '{"a":1}'], { a: 1 }],
-      [[undefined, '{"ä":1}'], { ä: 1 }],
-      [[42, '{"a":1}'], { a: 1 }],
+      [
+        [jSymbol, '"some kind of string"', 'some kind of string', null],
+        'some kind of string',
+      ],
+      [[jSymbol, '"true"', 'true', null], 'true'],
+      [[jSymbol, 'true', true, null], true],
+      [[jSymbol, '"42"', '42', null], '42'],
+      [[jSymbol, '42', 42, null], 42],
+      [[jSymbol, '{"a":1}', { a: 1 }, null], { a: 1 }],
+      [[jSymbol, '{}', new Error(), null], new Error()],
     ],
-    bad: [[[jSymbol, 'some string'], undefined]],
+    bad: [],
   },
 
   toArrayBuffer: {
     good: [
       [
-        [jSymbol, '{"a":1}'],
+        [jSymbol, '{"a":1}', { a: 1 }, null],
         [123, 34, 97, 34, 58, 49, 125],
       ],
       [
-        [jSymbol, '{"ä":"aü€☺¥人間"}'],
+        [jSymbol, '{"ä":"aü€☺¥人間"}', { ä: 'aü€☺¥人間' }, null],
         [
           123,
           34,

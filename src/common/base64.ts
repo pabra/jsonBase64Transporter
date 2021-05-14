@@ -13,12 +13,6 @@ export type Base64 = TaggedTriple<
   _type: 'Base64';
 };
 
-const base64PaddingRe = /=*$/;
-
-export function trimB64(b64: Base64String): Base64String {
-  return b64.replace(base64PaddingRe, '') as Base64String;
-}
-
 export function isBase64(data: unknown): data is Base64 {
   if (!isTaggedArray(data, 'triple')) {
     return false;

@@ -3,7 +3,7 @@ import { cases } from '../cases.base64';
 
 // trimmed fromArrayBuffer
 describe('trimmed base64.fromData with good data', () => {
-  cases.fromArrayBufferTimmed.good.forEach(([value, expected]) => {
+  cases.fromArrayBuffer.good.forEach(([value, expected]) => {
     const b64 = base64.fromArrayBuffer(value);
     it(`should be '${expected} with '${b64[1]}`, () => {
       expect(b64[1]).toBeNull();
@@ -19,7 +19,7 @@ describe('trimmed base64.fromData with good data', () => {
 });
 
 describe('base64.fromData with bad data', () => {
-  cases.fromArrayBufferTimmed.bad.forEach(([value]) => {
+  cases.fromArrayBuffer.bad.forEach(([value]) => {
     it(`should thro Error for '${value}'`, () => {
       expect(() =>
         base64.toValue(base64.fromArrayBuffer(value)),

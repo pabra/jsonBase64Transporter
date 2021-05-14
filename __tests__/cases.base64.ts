@@ -1,13 +1,13 @@
 import { base64Symbol as b64Symbol } from '../src/common/base64';
 
 export const cases: Record<
-  'fromArrayBufferTimmed' | 'toArrayBuffer' | 'load',
+  'fromArrayBuffer' | 'toArrayBuffer' | 'load',
   Record<'good' | 'bad', [any, any][]>
 > = {
-  fromArrayBufferTimmed: {
+  fromArrayBuffer: {
     good: [
-      [new Uint8Array([2, 4, 8, 16, 32, 64, 128, 255]), 'AgQIECBAgP8'],
-      [new Uint8Array([42, 119, 246, 13, 63, 213, 158]), 'Knf2DT/Vng'],
+      [new Uint8Array([2, 4, 8, 16, 32, 64, 128, 255]), 'AgQIECBAgP8='],
+      [new Uint8Array([42, 119, 246, 13, 63, 213, 158]), 'Knf2DT/Vng=='],
     ],
     bad: [[Infinity, undefined]],
   },

@@ -4,7 +4,7 @@
  */
 
 import type { Base64, Base64String } from '../common/base64';
-import { base64Symbol, trimB64 } from '../common/base64';
+import { base64Symbol } from '../common/base64';
 import { assertIsNode, isTestMode } from '../common/utils';
 
 export { isBase64 } from '../common/base64';
@@ -20,9 +20,7 @@ export function fromArrayBuffer(buf: ArrayBuffer): Base64 {
 
 export function toValue(b64: Base64): Base64String {
   if (b64[1] === null) {
-    const b64Str = trimB64(
-      Buffer.from(b64[2]).toString('base64') as Base64String,
-    );
+    const b64Str = Buffer.from(b64[2]).toString('base64') as Base64String;
     (b64 as any)[1] = b64Str;
   }
 

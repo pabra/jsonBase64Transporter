@@ -13,7 +13,7 @@ export type { Base64, Base64String } from '../common/base64';
 function ab2str(buf: ArrayBuffer): string {
   return String.fromCharCode.apply(
     null,
-    (new Uint8Array(buf) as unknown) as number[],
+    new Uint8Array(buf) as unknown as number[],
   );
 }
 
@@ -30,11 +30,11 @@ function str2ab(str: string): ArrayBuffer {
 }
 
 export function load(b64: string): Base64 {
-  return ([base64Symbol, b64, null] as unknown) as Base64;
+  return [base64Symbol, b64, null] as unknown as Base64;
 }
 
 export function fromArrayBuffer(buf: ArrayBuffer): Base64 {
-  return ([base64Symbol, null, buf] as unknown) as Base64;
+  return [base64Symbol, null, buf] as unknown as Base64;
 }
 
 export function toValue(b64: Base64): Base64String {

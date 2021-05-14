@@ -15,12 +15,12 @@ export type Json = TaggedQuadruple<
 };
 
 export function fromData(data: JsonValue): Json {
-  return ([
+  return [
     jsonSymbol,
     JSON.stringify(data) as JsonStringified,
     data,
     null, // ArrayBuffer
-  ] as unknown) as Json;
+  ] as unknown as Json;
 }
 
 export function toData(json: Json): JsonValue {

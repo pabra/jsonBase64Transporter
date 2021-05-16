@@ -1,51 +1,20 @@
-import { base64Symbol as b64Symbol } from '../src/common/base64';
-
-export const cases: Record<
-  'fromArrayBuffer' | 'toArrayBuffer' | 'load',
-  Record<'good' | 'bad', [any, any][]>
-> = {
-  fromArrayBuffer: {
-    good: [
-      [new Uint8Array([2, 4, 8, 16, 32, 64, 128, 255]), 'AgQIECBAgP8='],
-      [new Uint8Array([42, 119, 246, 13, 63, 213, 158]), 'Knf2DT/Vng=='],
+export const data: [string, string, number[]][] = [
+  ['dMOEc3Q=', 'tÄst', [116, 195, 132, 115, 116]],
+  [
+    'eyIzIjoiMyIsImEiOiJBIiwiYiI6Miwi4oKsIjpbMSwiQiIsdHJ1ZSx7fV19',
+    '{"3":"3","a":"A","b":2,"€":[1,"B",true,{}]}',
+    [
+      123, 34, 51, 34, 58, 34, 51, 34, 44, 34, 97, 34, 58, 34, 65, 34, 44, 34,
+      98, 34, 58, 50, 44, 34, 226, 130, 172, 34, 58, 91, 49, 44, 34, 66, 34, 44,
+      116, 114, 117, 101, 44, 123, 125, 93, 125,
     ],
-    bad: [[Infinity, undefined]],
-  },
-
-  toArrayBuffer: {
-    good: [
-      [
-        [b64Symbol, 'Knf2DT/Vng==', null],
-        [42, 119, 246, 13, 63, 213, 158],
-      ],
-      [
-        [42, 'Knf2DT/Vng==', null],
-        [42, 119, 246, 13, 63, 213, 158],
-      ],
-      [
-        [b64Symbol, 'Knf2DT/Vng', null],
-        [42, 119, 246, 13, 63, 213, 158],
-      ],
-      [
-        [b64Symbol, 'Knf2DT/Vng', null],
-        [42, 119, 246, 13, 63, 213, 158],
-      ],
-      [
-        [b64Symbol, 'AgQIECBAgP8=', null],
-        [2, 4, 8, 16, 32, 64, 128, 255],
-      ],
-      [
-        [b64Symbol, 'AgQIECBAgP8', null],
-        [2, 4, 8, 16, 32, 64, 128, 255],
-      ],
+  ],
+  [
+    'eyLigqwiOiJhw7zigqzimLrCpeS6uumWkyJ9',
+    '{"€":"aü€☺¥人間"}',
+    [
+      123, 34, 226, 130, 172, 34, 58, 34, 97, 195, 188, 226, 130, 172, 226, 152,
+      186, 194, 165, 228, 186, 186, 233, 150, 147, 34, 125,
     ],
-    bad: [[-Infinity, undefined]],
-  },
-  load: {
-    good: [
-      ['AgQIECBAgP8', [2, 4, 8, 16, 32, 64, 128, 255]],
-      ['Knf2DT/Vng==', [42, 119, 246, 13, 63, 213, 158]],
-    ],
-    bad: [],
-  },
-};
+  ],
+];

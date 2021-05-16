@@ -1,91 +1,87 @@
 import { json } from '../../src/node';
-import { cases } from '../cases.json';
+import { data, dataThrowFromData, dataThrowToArrayBuffer } from '../cases.json';
 
-// fromData
-describe('json.fromData with good data', () => {
-  cases.fromData.good.forEach(([value, expected]) => {
-    const j = json.fromData(value);
-    it('should lazy load', () => {
-      expect(j[1]).not.toBeNull();
-      // data might be null since it'S a valid json value
-      // expect(j[2]).not.toBeNull();
-      expect(j[3]).toBeNull();
+describe('json.fromData', () => {
+  it('should detect non json', () => {
+    expect(json.isJson([1, 2, 3, 4])).toBe(false);
+    expect(json.isJson([1, 2, 3])).toBe(false);
+    expect(json.isJson({ a: 1 })).toBe(false);
+    expect(json.isJson(true)).toBe(false);
+  });
+
+  data.forEach((entry, i) => {
+    const j = json.fromData(entry[0]);
+
+    it(`should detect json for '${i}' ${entry[1]}`, () => {
+      expect(json.isJson(j)).toBe(true);
     });
-    it(`JSON of '${j[1]}' to be '${expected}'`, () => {
-      expect(json.toValue(j)).toBe(expected);
-    });
-    it('should not be null anymore', () => {
-      expect(j[1]).not.toBeNull();
-      // data might be null since it'S a valid json value
-      // expect(j[2]).not.toBeNull();
-      expect(j[3]).toBeNull();
-    });
-    it(`should be Json with '${j[1]}'`, () => {
-      expect(json.isJson(j)).toBeTruthy();
+
+    it(`should get same data for '${i}' ${entry[1]}`, () => {
+      if (Number.isNaN(entry[0])) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(json.toData(j)).toEqual(entry[0]);
+      } else {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(json.toData(j)).toBe(entry[0]);
+      }
     });
   });
 });
 
-describe('json.fromData with bad data', () => {
-  cases.fromData.bad.forEach(([value]) => {
-    it(`should throw with '${value}'`, () => {
-      expect(() => json.fromData(value)).toThrowError();
-    });
-  });
-});
+describe('json.toValue', () => {
+  data.forEach((entry, i) => {
+    const j = json.fromData(entry[0]);
 
-// isJson
-describe('json.isJson with good data', () => {
-  cases.isJson.good.forEach(([value, expected]) => {
-    it(`'${String(value[1])}' to be '${expected}'`, () => {
-      expect(json.isJson(value)).toBe(expected);
+    it(`should get expected value for '${i}' ${entry[1]}`, () => {
+      expect(json.toValue(j)).toBe(entry[1]);
     });
-  });
-});
 
-describe('json.isJson with bad data', () => {
-  cases.isJson.bad.forEach(([value, expected]) => {
-    it(`'${String(
-      Array.isArray(value) ? value[1] : value,
-    )}' to be '${expected}'`, () => {
-      expect(json.isJson(value)).toBe(expected);
-    });
-  });
-});
-
-// toValue
-describe('json.toValue with good data', () => {
-  cases.toValue.good.forEach(([value, expected]) => {
-    it(`'${String(value[1])}' to be '${expected}'`, () => {
-      expect(json.toValue(value)).toBe(expected);
-    });
-  });
-});
-
-// toData
-describe('json.toData with good data', () => {
-  cases.toData.good.forEach(([value, expected]) => {
-    it(`'${value[1]}' to be '${expected}' `, () => {
-      expect(json.toData(value)).toEqual(expected);
-    });
-  });
-});
-
-describe('json.toData with bad data', () => {
-  cases.toData.bad.forEach(([value]) => {
-    it(`should throw Error with '${String(value[0])}'`, () => {
-      expect(() => json.toData(value)).toThrowError();
-    });
-  });
-});
-
-// toArrayBuffer
-describe('json.toArrayBuffer with good data', () => {
-  it('should return expected values', () => {
-    cases.toArrayBuffer.good.forEach(([value, expected]) => {
-      expect(Array.from(new Uint8Array(json.toArrayBuffer(value)))).toEqual(
-        expected,
+    it(`should get expected ArrayBuffer for '${i}' ${entry[1]}`, () => {
+      expect(Array.from(new Uint8Array(json.toArrayBuffer(j)))).toEqual(
+        entry[2],
       );
+    });
+  });
+});
+
+describe('json.toArrayBuffer', () => {
+  data.forEach((entry, i) => {
+    const j = json.fromData(entry[0]);
+
+    it(`should get expected ArrayBuffer for '${i}' ${entry[1]}`, () => {
+      expect(Array.from(new Uint8Array(json.toArrayBuffer(j)))).toEqual(
+        entry[2],
+      );
+    });
+
+    it(`should get expected value for '${i}' ${entry[1]}`, () => {
+      expect(json.toValue(j)).toBe(entry[1]);
+    });
+  });
+});
+
+describe('throw json.fromData', () => {
+  dataThrowFromData.forEach((entry, i) => {
+    it(`should throw for '${i}' ${entry[0]}`, () => {
+      expect(() => {
+        json.fromData(entry[0]);
+      }).toThrowError();
+    });
+  });
+});
+
+describe('throw json.toArrayBuffer', () => {
+  dataThrowToArrayBuffer.forEach((entry, i) => {
+    const j = json.fromData(entry[0]);
+
+    it(`should throw for '${i}' ${typeof entry[0]}`, () => {
+      expect(() => {
+        json.toArrayBuffer(j);
+      }).toThrowError();
+    });
+
+    it(`should get expected value for '${i}' ${typeof entry[0]}`, () => {
+      expect(json.toValue(j)).toBe(entry[1]);
     });
   });
 });

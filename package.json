@@ -1,6 +1,6 @@
 {
   "name": "@pabra/jsonBase64Transporter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Helps converting Json and Base64 Data consistently from and to String and ArrayBuffer in Node.js and browser.",
   "sideEffects": false,
   "main": "dist/cjs/node/index.js",

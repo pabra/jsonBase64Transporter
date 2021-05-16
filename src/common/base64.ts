@@ -1,28 +1,33 @@
-import type { Opaque, TaggedTriple } from './types';
+import type { Opaque, TaggedQuadruple } from './types';
 import { isTaggedArray } from './utils';
 
-export const base64Symbol = Symbol('base64');
+const base64Symbol = Symbol('base64');
 
 export type Base64String = Opaque<string, 'Base64String'>;
 
-export type Base64 = TaggedTriple<
+export type Base64 = TaggedQuadruple<
   Base64String,
   ArrayBuffer,
+  string,
   typeof base64Symbol
 > & {
   _type: 'Base64';
 };
 
 export function load(b64: string): Base64 {
-  return [base64Symbol, b64, null] as unknown as Base64;
+  return [base64Symbol, b64, null, null] as unknown as Base64;
 }
 
 export function fromArrayBuffer(buf: ArrayBuffer): Base64 {
-  return [base64Symbol, null, buf] as unknown as Base64;
+  return [base64Symbol, null, buf, null] as unknown as Base64;
+}
+
+export function fromText(text: string): Base64 {
+  return [base64Symbol, null, null, text] as unknown as Base64;
 }
 
 export function isBase64(data: unknown): data is Base64 {
-  if (!isTaggedArray(data, 'triple')) {
+  if (!isTaggedArray(data)) {
     return false;
   }
 

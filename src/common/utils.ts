@@ -37,15 +37,12 @@ export function assertIsBrowser(): void {
 
 export function isTaggedArray(
   data: unknown,
-  length: 'triple' | 'quadruple',
-): data is readonly [unknown, unknown, unknown] {
+): data is Readonly<[unknown, unknown, unknown, unknown]> {
   if (!Array.isArray(data)) {
     return false;
   }
 
-  const expectedLength = length === 'triple' ? 3 : 4;
-
-  if (data.length !== expectedLength) {
+  if (data.length !== 4) {
     return false;
   }
 

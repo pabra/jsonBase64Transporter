@@ -32,7 +32,7 @@ export function toValue(json: Json): JsonStringified {
 }
 
 export function isJson(data: unknown): data is Json {
-  if (!isTaggedArray(data, 'quadruple')) {
+  if (!isTaggedArray(data)) {
     return false;
   }
 

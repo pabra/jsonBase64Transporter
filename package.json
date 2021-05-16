@@ -1,7 +1,7 @@
 {
-  "name": "string-types",
+  "name": "@pabra/jsonBase64Transporter",
   "version": "0.0.1",
-  "description": "",
+  "description": "Helps converting Json and Base64 Data consistently from and to String and ArrayBuffer in Node.js and browser.",
   "sideEffects": false,
   "main": "dist/cjs/node/index.js",
   "module": "dist/esm/node/index.js",
@@ -39,9 +39,27 @@
     "build:check": "tsc -p tsconfig.test.json",
     "build": "run-p build:cjs build:esm"
   },
-  "keywords": [],
-  "author": "pabra",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pabra/jsonBase64Transporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pabra/jsonBase64Transporter/issues"
+  },
+  "homepage": "https://github.com/pabra/jsonBase64Transporter#readme",
+  "keywords": [
+    "json",
+    "base64",
+    "browser",
+    "nodejs",
+    "ArrayBuffer",
+    "typescript"
+  ],
+  "author": "Patrick Braune <pabra@netzfruech.de>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
